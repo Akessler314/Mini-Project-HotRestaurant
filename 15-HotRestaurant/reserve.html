@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make a Reservation for a Hot Single Table</title>
+    <!-- favicon -->
+    <link rel="icon" type="image/png" href="./assets/images/favicon.png" />
+    <!-- bootstrap library -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    <!-- fontawesome stylesheet -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <!-- fontawesome javascript -->
+    <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" data-auto-replace-svg="nest"></script>
+    <!-- google fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Indie+Flower&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet" />
+    <!-- local style sheet -->
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <!-- jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+</head>
+<style>
+    /* font-family: 'Lato', sans-serif; */
+    /* font-family: 'Indie Flower', cursive; */
+    /* font-family: 'Architects Daughter', cursive; */
+    /* font-family: 'Open Sans', sans-serif; */
+    /* font-family: 'Roboto', sans-serif; */
+</style>
+<body>
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="text-center">
+            <span class="fa fa-fire"></span>
+            Hot Restaurants (And Singles) Near You
+        </h1>
+        <hr>
+        <h2 class="text-center">Make a reservation</h2>
+        <br>
+        <div class="text-center">
+            <a href="/tables">
+                <button class="btn btn-large btn-primary">
+                    <span class="fa fa-list-alt"></span>
+                    View tables
+                </button>
+            </a>
+
+            <a href="/">
+                <button class="btn btn-large btn-default">
+                    <span class="fa fa-home"></span>
+                </button>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    Table Reserve
+                </div>
+
+                <div class="card-body">
+                    <form action="POST" role="form">
+                        <!-- Name -->
+                        <div class="form-group">
+                            <label for="reserve-name">Name</label>
+                            <input type="text" class="form-control" id="reserve-name" placeholder="John Cena">
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="form-group">
+                            <label for="reserve-phone">Phone Number</label>
+                            <input type="text" class="form-control" id="reserve-phone" placeholder="801-000-0000">
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="reserve-email">Email</label>
+                            <input type="text" class="form-control" id="reserve-email" placeholder="johncena@email.com">
+                        </div>
+
+                        <!-- ID -->
+                        <div class="form-group">
+                            <label for="reserve-id">ID</label>
+                            <input type="text" class="form-control" id="reserve-id" placeholder="12345">
+                        </div>
+
+                        <!-- Submit -->
+                        <button type="submit" class="btn btn-primary submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p>
+                <a href="/api/tables">API Table</a>
+                |
+                <a href="/api/waitlist">API Wait list</a>
+            </p>
+        </div>
+    </footer>
+</div>
+
+    <!-- script to post data on button click -->
+    <script type="text/javascript">
+        $(".submit").on("click", function(event) {
+        event.preventDefault();
+        var reservationRequest = {
+            name: $("#reserve-name").val().trim(),
+            phoneNumber: $("#reserve-phone").val().trim(), 
+            email: $("#reserve-email").val().trim(),
+            id: $("#reserve-id").val().trim(),
+        };
+        $.post("/reserve", reservationRequest)
+        alert("Success! Your reservation has been sent.");
+        });
+    </script>
+
+</body>
+</html>

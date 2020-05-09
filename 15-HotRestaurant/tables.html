@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hot Restaurants(And Singles) Near You</title>
+    <!-- favicon -->
+    <link rel="icon" type="image/png" href="./assets/images/favicon.png" />
+    <!-- bootstrap library -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    <!-- fontawesome stylesheet -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <!-- fontawesome javascript -->
+    <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" data-auto-replace-svg="nest"></script>
+    <!-- google fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Indie+Flower&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet" />
+    <!-- local style sheet -->
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <!-- jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="text-center">
+                <span class="fa fa-fire"></span>
+                Hot Restaurants (And Singles) Near You
+            </h1>
+            <hr>
+            <h2 class="text-center">Current reservations and Waiting list</h2>
+            <br>
+            <div class="text-center">
+                <a href="/reserve">
+                    <button class="btn btn-large btn-danger">
+                        <span class="fa fa-credit-card"></span>
+                        Make reservation
+                    </button>
+                </a>
+
+                <a href="/">
+                    <button class="btn btn-large btn-default">
+                        <span class="fa fa-home"></span>
+                    </button>
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- Current tables -->
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Current Reservations</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul id="tableList" class="list-group">
+                            <li class="list-group-item mt-4">
+                                <h2>Table 1</h2>
+                                <hr>
+                                <h2>ID: </h2>
+                                <h2>Name: John Cena</h2>
+                                <h2>Email: youcantseeme@email.com</h2>
+                                <h2>Phone: 123456789</h2>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Waiting List -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h4>Waiting List</h4>
+                        </div>
+
+                        <div class="card-body">
+                            <ul id="waitList" class="list-group">
+                                <li class="list-group-item mt-4">
+                                    <h2>Table 1</h2>
+                                    <hr>
+                                    <h2>ID: rko</h2>
+                                    <h2>Name: Randy Orton</h2>
+                                    <h2>Email: rko-outta-nowhere@email.com</h2>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <p>
+                    <a href="/api/tables">API Table</a>
+                    |
+                    <a href="/api/waitlist">API Wait list</a>
+                </p>
+            </div>
+        </footer>
+    </div>
+    <script>
+        $.ajax({
+    url: "http://localhost:6969/api/tables",
+    method: "GET"
+  }).then(function(response) {
+    const tables = response.data;
+    console.log("tables", tables)
+    console.log("response", response)
+
+        // select and empty container div
+        $("#tableList").empty();
+    
+        for (let i = 0; i < tables.length; i++) {
+            // generate sections from data (tables object)
+            var liElement = $("<li>");
+            liElement.attr("class", "list-group-item mt-4");
+            var h2ElementTable = $("<h2>");
+            var h2ElementID = $("<h2>");
+            var h2ElementName = $("<h2>");
+            var h2ElementEmail = $("<h2>");
+            var h2ElementPhone = $("<h2>");
+            var hrElement = $("<hr>");
+            // update text
+            h2ElementTable.text(`Table ${i + 1}`);
+            h2ElementID.text(`ID: ${tables[i].id}`);
+            h2ElementName.text(`Name: ${tables[i].name}`);
+            h2ElementEmail.text(`Email: ${tables[i].email}`);
+            h2ElementPhone.text(`Phone: ${tables[i].phoneNumber}`);
+            // append elements
+            liElement.append(h2ElementTable);
+            liElement.append(hrElement);
+            liElement.append(h2ElementID);
+            liElement.append(h2ElementName);
+            liElement.append(h2ElementEmail);
+            liElement.append(h2ElementPhone);
+            
+            $("#tableList").append(liElement);
+    
+        };
+  });
+
+$.ajax({
+    url: "http://localhost:6969/api/waitlist",
+    method: "GET"
+}).then(function(response) {
+    const waitlist = response.data;
+
+        // select and empty container div
+        $("#waitList").empty();
+    
+        for (let i = 0; i < waitlist.length; i++) {
+            // generate sections from data (tables object)
+            var liElement = $("<li>");
+            liElement.attr("class", "list-group-item mt-4");
+            var h2ElementTable = $("<h2>");
+            var h2ElementID = $("<h2>");
+            var h2ElementName = $("<h2>");
+            var h2ElementEmail = $("<h2>");
+            var h2ElementPhone = $("<h2>");
+            var hrElement = $("<hr>");
+            // update text
+            h2ElementTable.text(`Table ${i + 1}`);
+            h2ElementID.text(`ID: ${waitlist[i].id}`);
+            h2ElementName.text(`Name: ${waitlist[i].name}`);
+            h2ElementEmail.text(`Email: ${waitlist[i].email}`);
+            h2ElementPhone.text(`Phone: ${waitlist[i].phoneNumber}`);
+            // append elements
+            liElement.append(h2ElementTable);
+            liElement.append(hrElement);
+            liElement.append(h2ElementID);
+            liElement.append(h2ElementName);
+            liElement.append(h2ElementEmail);
+            liElement.append(h2ElementPhone);
+            
+            $("#waitList").append(liElement);
+        
+        }
+});
+    </script>
+</body>
+</html>
